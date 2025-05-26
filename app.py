@@ -79,14 +79,14 @@ if prompt:=st.chat_input(placeholder="What is Machine Learning?"):
         tools = [web_search, arxiv, wiki]
         search_agent = initialize_agent(
             tools, llm, agent=AgentType.CHAT_ZERO_SHOT_REACT_DESCRIPTION,
-            handling_parsing_errors=True
+            handle_parsing_errors=True
         )
     elif model_type == "Ollama":
         llm = OllamaLLM(model=selected_model)
         tools = [web_search, arxiv, wiki]
         search_agent = initialize_agent(
             tools, llm, agent=AgentType.CHAT_ZERO_SHOT_REACT_DESCRIPTION,
-            handling_parsing_errors=True
+            handle_parsing_errors=True
         )
     else:
         st.warning("Select LLM Model")
@@ -96,4 +96,4 @@ if prompt:=st.chat_input(placeholder="What is Machine Learning?"):
         st_cb = StreamlitCallbackHandler(st.container(), expand_new_thoughts=False)
         response = search_agent.run(st.session_state.messages, callbacks=[st_cb])
         st.session_state.messages.append({"role":"assistant", "content":response})
-        st.write(response)
+        st.markdown(response)
